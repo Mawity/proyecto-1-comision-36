@@ -1,7 +1,6 @@
 :- module(proylcc,
 	[  
-		put/8,
-		gameStatus/2
+		put/8
 	]).
 
 :-use_module(library(lists)).
@@ -12,31 +11,16 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% replace(+Position, +Content, +Grilla, -GrillaRes)
+% replace(?X, +XIndex, +Y, +Xs, -XsY)
 %
+% XsY es el resultado de reemplazar la ocurrencia de X en la posición XIndex de Xs por Y.
 
-replace([0, C], Pintar, [G|Gs], [Res|Gs]):-
-	pintarEnFila(G, C, Pintar, Res).
+replace(X, 0, Y, [X|Xs], [Y|Xs]).
 
-replace([F, C], Pintar, [G|Gs], [G|Rs]):-
-	F>0,
-	FAux is F - 1,
-	replace([FAux, C], Pintar, Gs, Rs).
-	
-
-pintarEnFila([F|Fs], 0, Simbolo, [QuedaPintado|Fs]):-
-	(F = Simbolo -> QuedaPintado is ''; QuedaPintado is Simbolo).
-
-%pintarEnFila(['X'|Fs], 0, 'X', [''|Fs]).
-
-%pintarEnFila(['#'|Fs], 0, '#', [''|Fs]).
-
-pintarEnFila([F|Fs], Index, Simbolo, [F|Rs]):-
-	Index>0,
-	IndexAux is Index - 1,
-	pintarEnFila(Fs, IndexAux, Simbolo, Rs).
-
-
+replace(X, XIndex, Y, [Xi|Xs], [Xi|XsY]):-
+    XIndex > 0,
+    XIndexS is XIndex - 1,
+    replace(X, XIndexS, Y, Xs, XsY).
 
 
 
@@ -66,7 +50,7 @@ filaEsCorrecta(Fila, [Part|[]]) :-
 %
 % parteEsCorrecta(+Fila, +PistasFilas)
 %
-
+%
 parteEsCorrecta(Fila, Fila, 0).
 
 parteEsCorrecta(['#'|Fila], RestFila, N) :-
@@ -75,14 +59,14 @@ parteEsCorrecta(['#'|Fila], RestFila, N) :-
     parteEsCorrecta(Fila, RestFila, N1).
 
 
-espacioObligatorio([''|Fila],Fila).
+espacioObligatorio(['_'|Fila],Fila).
 
 espacioObligatorio(['X'|Fila],Fila).
 
 
 saltearEspaciosIniciales(Fila, Fila).
 
-saltearEspaciosIniciales([''|Fila],RestFila) :-
+saltearEspaciosIniciales(['_'|Fila],RestFila) :-
     saltearEspaciosIniciales(Fila, RestFila).
 
 saltearEspaciosIniciales(['X'|Fila],RestFila) :-
@@ -96,47 +80,27 @@ saltearEspaciosIniciales(['X'|Fila],RestFila) :-
 
 put(Contenido, [F, C], PistasFilas, PistasColumnas, Grilla, GrillaRes, FilaSat, ColSat):-
 
-	replace([F,C], Contenido, Grilla, GrillaRes),
+	% GrillaRes es el resultado de reemplazar la fila Row en la posición RowN de Grilla
+	% (RowN-ésima fila de Grilla), por una fila nueva NewRow.
+	
+	replace(Row, F, NewRow, Grilla, GrillaRes),
 
-	nth0(F, Grilla, FilaPos),
+	% NewRow es el resultado de reemplazar la celda Cell en la posición ColN de Row por _,
+	% siempre y cuando Cell coincida con Contenido (Cell se instancia en la llamada al replace/5).
+	% En caso contrario (;)
+	% NewRow es el resultado de reemplazar lo que se que haya (_Cell) en la posición ColN de Row por Conenido.	 
+	
+	(replace(Cell, C, _, Row, NewRow), Cell == Contenido; replace(_Cell, C, Contenido, Row, NewRow)),
+
+
     nth0(F, PistasFilas, PistasFilaPos),
-	(filaEsCorrecta(FilaPos, PistasFilaPos) -> FilaSat = 1; FilaSat = 0),
+	(filaEsCorrecta(NewRow, PistasFilaPos) -> FilaSat = 1; FilaSat = 0),
 
-	transpose(Grilla, GrillaTraspuesta),
+	transpose(GrillaRes, GrillaTraspuesta),
 
     nth0(C, GrillaTraspuesta, ColPos),
     nth0(C, PistasColumnas, PistasColPos),
 	(filaEsCorrecta(ColPos, PistasColPos) -> ColSat = 1; ColSat = 0).
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% gameStatus(+Board, +Status)
-%
-
-gameStatus(Board, Winner):-
-	Filas = [
-    	[0, 1, 2],
-		[3, 4, 5],
-		[6, 7, 8],
-		[0, 3, 6],
-		[1, 4, 7],
-		[2, 5, 8],
-		[0, 4, 8],
-		[2, 4, 6]
-  	],
-  	member([C1, C2, C3], Filas),
-	nth0(C1, Board, Winner),
-	Winner \= "-",
-	nth0(C2, Board, Winner),
-	nth0(C3, Board, Winner),
-	!.  
-
-gameStatus(Board, "?"):-
-	member("-", Board),
-	!.
-
 
 
 %put(#, [0,0], [[2],[],[],[],[]], [3,1], [['',#,#,'',''],[],[],[],[]], GrillaRes, FilaSat, ColSat).
