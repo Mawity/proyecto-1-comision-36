@@ -78,7 +78,7 @@ body {
   margin: 2px
 }
 
-.colClues .clue {
+.colClues .clue .sat{
   flex-direction: column;
 }
 

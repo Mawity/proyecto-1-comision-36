@@ -10,6 +10,10 @@ class Board extends React.Component {
         const rowClues = this.props.rowClues;
         const colClues = this.props.colClues;
 
+        const arrAuxR = this.props.rowCluesSat;
+        const arrAuxC = this.props.colCluesSat;
+
+
         return (
             <div className="vertical">
                 <div
@@ -28,7 +32,11 @@ class Board extends React.Component {
                 >
                     <div>{/* top-left corner square */}</div>
                     {colClues.map((clue, i) =>
-                        <Clue clue={clue} key={i}/>
+                        <Clue 
+                            clue={clue}
+                            key={i}
+                            clueClass={arrAuxC==null ? 0 : arrAuxC[i]}
+                        />
                     )}
                 </div>
                 <div className="horizontal">
@@ -41,7 +49,11 @@ class Board extends React.Component {
                         }}
                     >
                         {rowClues.map((clue, i) =>
-                            <Clue clue={clue} key={i}/>
+                            <Clue 
+                                clue={clue}
+                                key={i}
+                                clueClass={arrAuxR==null ? 0 : arrAuxR[i]}
+                            />
                         )}
                     </div>
                     <div className="board"

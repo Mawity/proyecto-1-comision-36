@@ -37,12 +37,9 @@ class Game extends React.Component {
         const arrayVacioFilas = new Array(this.state.grid.length);
         const arrayVacioColumnas = new Array(this.state.grid.length[0]);
 
-        arrayVacioFilas.fill(0);
-        arrayVacioColumnas.fill(0);
-
         this.setState({
-        correctRow: arrayVacioFilas,
-        correctCol: arrayVacioColumnas          
+          correctRow: arrayVacioFilas.fill(0),
+          correctCol: arrayVacioColumnas.fill(0)          
         });
       }
     });
@@ -107,8 +104,8 @@ class Game extends React.Component {
     var areAllCorrect = true;
     var i=this.state.correctRow.length;
 
-    while(i>0 && areAllCorrect){
-      if(this.state.correctRow[i] == 0){
+    while(i>=0 && areAllCorrect){
+      if(this.state.correctRow[i-1] == 0){
         areAllCorrect = false;
       }
       i--;
@@ -116,8 +113,8 @@ class Game extends React.Component {
 
     var j = this.state.correctCol.length;
     
-    while(j>0 && areAllCorrect){
-      if(this.state.correctCol[i] == 0){
+    while(j>=0 && areAllCorrect){
+      if(this.state.correctCol[j-1] == 0){
         areAllCorrect = false;
       }
       j--;
@@ -142,11 +139,12 @@ class Game extends React.Component {
     return (
       <div className="game">
         <Board
-          playable={this.state.gameStatus = "Game in progress" ? true : false}
+          playable={this.state.gameStatus == "Game in progress" ? true : false}
           grid={this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
-
+          rowCluesSat={this.state.correctRow}
+          colCluesSat={this.state.correctCol}
           onClick={(i, j) => this.handleClick(i,j)}
         />
 

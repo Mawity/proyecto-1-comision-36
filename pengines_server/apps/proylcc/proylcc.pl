@@ -44,7 +44,7 @@ pintarEnFila([F|Fs], Index, Simbolo, [F|Rs]):-
 % filaEsCorrecta(+Fila, +PistasFilas)
 %
 
-filaEsCorrecta([],[]) :- !.
+filaEsCorrecta([],[]).
 
 filaEsCorrecta(Fila, [Part|Rest]) :-
     Rest \= [],
@@ -97,11 +97,11 @@ put(Contenido, [F, C], PistasFilas, PistasColumnas, Grilla, GrillaRes, FilaSat, 
 
     replace([F,C], Contenido, Grilla, GrillaRes),
 
-    nth0(F, Grilla, FilaPos),
+    nth0(F, GrillaRes, FilaPos),
     nth0(F, PistasFilas, PistasFilaPos),
     (filaEsCorrecta(FilaPos, PistasFilaPos) -> FilaSat = 1; FilaSat = 0),
 
-    transpose(Grilla, GrillaTraspuesta),
+    transpose(GrillaRes, GrillaTraspuesta),
 
     nth0(C, GrillaTraspuesta, ColPos),
     nth0(C, PistasColumnas, PistasColPos),
