@@ -31,7 +31,18 @@ class Game extends React.Component {
         this.setState({
           grid: response['Grilla'],
           rowClues: response['PistasFilas'],
-          colClues: response['PistasColumns'],
+          colClues: response['PistasColumns']
+        });
+
+        const arrayVacioFilas = new Array(this.state.grid.length);
+        const arrayVacioColumnas = new Array(this.state.grid.length[0]);
+
+        arrayVacioFilas.fill(0);
+        arrayVacioColumnas.fill(0);
+
+        this.setState({
+        correctRow: arrayVacioFilas,
+        correctCol: arrayVacioColumnas          
         });
       }
     });
@@ -93,26 +104,35 @@ class Game extends React.Component {
   }
 
   isGameOver(){
-    areAllCorrect = true;
+    var areAllCorrect = true;
+    var i=this.state.correctRow.length;
 
-    this.state.correctRow.forEach(row => {
+    while(i>0 && areAllCorrect){
+      if(this.state.correctRow[i] == 0){
+        areAllCorrect = false;
+      }
+      i--;
+    }
 
-    });
+    var j = this.state.correctCol.length;
+    
+    while(j>0 && areAllCorrect){
+      if(this.state.correctCol[i] == 0){
+        areAllCorrect = false;
+      }
+      j--;
+    }
 
-
-
-    this.state.correctRow.forEach(row => {
-      this.state.correctCol.forEach(col =>{
-        if(!col || !row){
-          this.setState({
-            gameStatus: "Game in progress"
-          })      
-          break;
-        }
-      });
-    });
-
-    ;
+    if(areAllCorrect){
+      this.setState({
+        gameStatus: "You win!"
+      })
+    }else{
+      this.setState({
+        gameStatus: "Game in progress"
+      })
+    }
+    
   }
 
   render() {
@@ -126,6 +146,7 @@ class Game extends React.Component {
           grid={this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
+
           onClick={(i, j) => this.handleClick(i,j)}
         />
 
@@ -135,7 +156,7 @@ class Game extends React.Component {
         />
 
         <div className="gameInfo">
-          {this.gameStatus}
+          {this.state.gameStatus}
         </div>
 
       </div>
