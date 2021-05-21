@@ -5,8 +5,8 @@ body {
 
 .square {
   background: #fff;
-  border: 1px solid #999;
-  font-size: 24px;
+  border: 1px solid rgb(0, 0, 0);
+  font-size: 30px;
   font-weight: bold;
   margin-right: -1px;
   margin-top: -1px;
@@ -18,8 +18,20 @@ body {
   outline: none;
 }
 
+.squarePintado {
+  background: rgb(61, 78, 156);
+  border: 1px solid rgb(0, 0, 0);
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
 .gamemode {
-  border: 1px outset blue;
+  border: 1px outset rgb(61, 78, 156);
+  margin-top: 135px;
+  margin-left: 75px;
+  font-size: 30px;
   background-color: lightBlue;
   height:50px;
   width:50px;
@@ -27,8 +39,18 @@ body {
 }
 
 .gamemode:hover {
-  background-color: blue;
+  background-color: rgb(61, 78, 156);
   color:white;
+}
+
+.gamemodeNotHover {
+  border: 1px outset rgb(61, 78, 156);
+  background-color: lightBlue;
+  margin-top: 135px;
+  margin-left: 75px;
+  font-size: 30px;
+  height:50px;
+  width:50px;
 }
 
 .board {
@@ -89,4 +111,5 @@ body {
 
 .gameInfo {
   margin-left: 20px;
+  font: 35px "Century Gothic", Futura, sans-serif;
 }

@@ -4,7 +4,7 @@ class GameMode extends React.Component {
 
     render() {
         return (
-            <button className="gamemode" onClick={this.props.onClick}>
+            <button className={this.props.isDisabled ? "gamemodeNotHover" : "gamemode"} onClick={this.props.onClick} disabled={this.props.isDisabled}>
                 {this.props.value == '#' ? this.props.value : 'X'}
             </button>
         );

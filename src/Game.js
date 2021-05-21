@@ -149,6 +149,7 @@ class Game extends React.Component {
         />
 
         <GameMode
+          isDisabled={this.state.gameStatus == "Game in progress" ? false : true}
           value={this.state.gameMode}
           onClick={() => this.handleMode()}        
         />
