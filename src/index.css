@@ -18,6 +18,19 @@ body {
   outline: none;
 }
 
+.gamemode {
+  border: 1px outset blue;
+  background-color: lightBlue;
+  height:50px;
+  width:50px;
+  cursor:pointer;
+}
+
+.gamemode:hover {
+  background-color: blue;
+  color:white;
+}
+
 .board {
   display: grid;
 }

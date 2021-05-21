@@ -1,6 +1,7 @@
 import React from 'react';
 import PengineClient from './PengineClient';
 import Board from './Board';
+import GameMode from './GameMode';
 
 class Game extends React.Component {
 
@@ -12,6 +13,8 @@ class Game extends React.Component {
       grid: null,
       rowClues: null,
       colClues: null,
+      gameMode: "#",
+      //gridState: 
       waiting: false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -40,8 +43,11 @@ class Game extends React.Component {
     // Build Prolog query to make the move, which will look as follows:
     // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
     const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
-    const queryS = 'put("#", [' + i + ',' + j + ']' 
-    + ', [], [],' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+    const gamsModeS = JSON.stringify(this.state.gameMode);
+    const rowCluesS = JSON.stringify(this.state.rowClues);
+    const colCluesS = JSON.stringify(this.state.colClues);
+    const queryS = 'put('+ gamsModeS +', [' + i + ',' + j + ']' 
+    + ', ' + rowCluesS + ',' + rowCluesS + ',' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     this.setState({
       waiting: true
     });
@@ -59,6 +65,24 @@ class Game extends React.Component {
     });
   }
 
+  handleMode(){
+    if(this.state.waiting){
+      return;
+    }
+
+    if(this.state.gameMode == "#"){
+      this.setState({
+        gameMode: "X"
+      })
+    }else{
+      this.setState({
+        gameMode: "#"
+      })
+    }
+
+
+  }
+
   render() {
     if (this.state.grid === null) {
       return null;
@@ -72,9 +96,16 @@ class Game extends React.Component {
           colClues={this.state.colClues}
           onClick={(i, j) => this.handleClick(i,j)}
         />
+
+        <GameMode
+          value={this.state.gameMode}
+          onClick={() => this.handleMode()}        
+        />
+
         <div className="gameInfo">
           {statusText}
         </div>
+
       </div>
     );
   }
