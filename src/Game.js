@@ -14,7 +14,8 @@ class Game extends React.Component {
       rowClues: null,
       colClues: null,
       gameMode: "#",
-      //gridState: 
+      gameStatus: "Game in progress",
+      gridState: null, 
       waiting: false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -47,16 +48,23 @@ class Game extends React.Component {
     const rowCluesS = JSON.stringify(this.state.rowClues);
     const colCluesS = JSON.stringify(this.state.colClues);
     const queryS = 'put('+ gamsModeS +', [' + i + ',' + j + ']' 
-    + ', ' + rowCluesS + ',' + rowCluesS + ',' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+    + ', ' + rowCluesS + ',' + colCluesS + ',' + squaresS + ', GrillaRes, FilaSat, ColSat)';
     this.setState({
       waiting: true
     });
     this.pengine.query(queryS, (success, response) => {
       if (success) {
+        var ;
         this.setState({
           grid: response['GrillaRes'],
           waiting: false
+
+        
         });
+
+        
+
+
       } else {
         this.setState({
           waiting: false
@@ -79,15 +87,21 @@ class Game extends React.Component {
         gameMode: "#"
       })
     }
+  }
 
+  isGameOver(){
+    this.state.gridState.forEach(row => {
+      row.forEach(cell =>{
 
+      });
+    });
+    ;
   }
 
   render() {
     if (this.state.grid === null) {
       return null;
     }
-    const statusText = 'Keep playing!';
     return (
       <div className="game">
         <Board
@@ -103,7 +117,7 @@ class Game extends React.Component {
         />
 
         <div className="gameInfo">
-          {statusText}
+          {this.gameStatus}
         </div>
 
       </div>
