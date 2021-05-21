@@ -26,7 +26,7 @@ replace([F, C], Pintar, [G|Gs], [G|Rs]):-
     
 
 pintarEnFila([F|Fs], 0, Simbolo, [QuedaPintado|Fs]):-
-    (F == Simbolo -> QuedaPintado = '_'; QuedaPintado = Simbolo).
+    (F == Simbolo -> QuedaPintado = _; QuedaPintado = Simbolo).
 
 
 
@@ -61,26 +61,27 @@ filaEsCorrecta(Fila, [Part|[]]) :-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+% sacar comillas
 % parteEsCorrecta(+Fila, +PistasFilas)
 %
 %
 parteEsCorrecta(Fila, Fila, 0).
 
-parteEsCorrecta(['#'|Fila], RestFila, N) :-
+parteEsCorrecta([X|Fila], RestFila, N) :-
+    X == '#',
     N > 0,
     N1 is N - 1,
     parteEsCorrecta(Fila, RestFila, N1).
 
 
-espacioObligatorio(['_'|Fila],Fila).
+espacioObligatorio([_|Fila],Fila).
 
 espacioObligatorio(['X'|Fila],Fila).
 
 
 saltearEspaciosIniciales(Fila, Fila).
 
-saltearEspaciosIniciales(['_'|Fila],RestFila) :-
+saltearEspaciosIniciales([_|Fila],RestFila) :-
     saltearEspaciosIniciales(Fila, RestFila).
 
 saltearEspaciosIniciales(['X'|Fila],RestFila) :-

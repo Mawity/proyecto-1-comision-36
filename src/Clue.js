@@ -4,7 +4,7 @@ class Clue extends React.Component {
     render() {
         const clue = this.props.clue;
         return (
-            <div className={"clue"} >
+            <div className={"clue sat"} >
                 {clue.map((num, i) =>
                     <div key={i}>
                         {num}

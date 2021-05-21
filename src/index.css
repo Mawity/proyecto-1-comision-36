@@ -65,6 +65,19 @@ body {
   margin: 2px
 }
 
+.sat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: aquamarine;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+.sat div {
+  margin: 2px
+}
+
 .colClues .clue {
   flex-direction: column;
 }

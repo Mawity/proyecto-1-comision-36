@@ -15,7 +15,8 @@ class Game extends React.Component {
       colClues: null,
       gameMode: "#",
       gameStatus: "Game in progress",
-      gridState: null, 
+      correctRow: null,
+      correctCol: null, 
       waiting: false
     };
     this.handleClick = this.handleClick.bind(this);
@@ -54,16 +55,18 @@ class Game extends React.Component {
     });
     this.pengine.query(queryS, (success, response) => {
       if (success) {
-        var ;
+        const pistasRowAct = this.state.correctRow.slice();
+        const pistasColAct = this.state.correctCol.slice();
+
+        pistasRowAct[i] = response['FilaSat'];
+        pistasColAct[j] = response['ColSat'];
+
         this.setState({
           grid: response['GrillaRes'],
+          correctRow: pistasRowAct,
+          correctCol: pistasColAct,
           waiting: false
-
-        
-        });
-
-        
-
+        }, () => this.isGameOver());
 
       } else {
         this.setState({
@@ -90,11 +93,25 @@ class Game extends React.Component {
   }
 
   isGameOver(){
-    this.state.gridState.forEach(row => {
-      row.forEach(cell =>{
+    areAllCorrect = true;
 
+    this.state.correctRow.forEach(row => {
+
+    });
+
+
+
+    this.state.correctRow.forEach(row => {
+      this.state.correctCol.forEach(col =>{
+        if(!col || !row){
+          this.setState({
+            gameStatus: "Game in progress"
+          })      
+          break;
+        }
       });
     });
+
     ;
   }
 
@@ -105,6 +122,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <Board
+          playable={this.state.gameStatus = "Game in progress" ? true : false}
           grid={this.state.grid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}

@@ -52,6 +52,7 @@ class Board extends React.Component {
                         {this.props.grid.map((row, i) =>
                             row.map((cell, j) =>
                                 <Square
+                                    isDisabled={this.props.playable}
                                     value={cell}
                                     onClick={() => this.props.onClick(i, j)}
                                     key={i + j}
