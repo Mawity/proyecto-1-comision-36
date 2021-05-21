@@ -34,12 +34,12 @@ class Game extends React.Component {
           colClues: response['PistasColumns']
         });
 
-        const arrayVacioFilas = new Array(this.state.grid.length);
-        const arrayVacioColumnas = new Array(this.state.grid.length[0]);
+        const arrayVacioFilas = new Array(response['Grilla'].length);
+        const arrayVacioColumnas = new Array(response['Grilla'][0].length);
 
         this.setState({
           correctRow: arrayVacioFilas.fill(0),
-          correctCol: arrayVacioColumnas.fill(0)          
+          correctCol: arrayVacioColumnas.fill(0)        
         });
       }
     });
@@ -51,8 +51,8 @@ class Game extends React.Component {
       return;
     }
     // Build Prolog query to make the move, which will look as follows:
-    // put("#",[0,1],[], [],[["X",_,_,_,_],["X",_,"X",_,_],["X",_,_,_,_],["#","#","#",_,_],[_,_,"#","#","#"]], GrillaRes, FilaSat, ColSat)
-    const squaresS = JSON.stringify(this.state.grid).replaceAll('"_"', "_"); // Remove quotes for variables.
+    // put("#",[0,1],[], [],[["X","_","_","_","_"],["X","_","X","_","_"],["X","_","_","_","_"],["#","#","#","_","_"],["_","_","#","#","#"]], GrillaRes, FilaSat, ColSat)
+    const squaresS = JSON.stringify(this.state.grid);
     const gamsModeS = JSON.stringify(this.state.gameMode);
     const rowCluesS = JSON.stringify(this.state.rowClues);
     const colCluesS = JSON.stringify(this.state.colClues);
