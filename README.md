@@ -4,4 +4,3 @@
 
 Comision 36:
 - Denis, Mateo
-- Riquelme Vera, Maximiliano
