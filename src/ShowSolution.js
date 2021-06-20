@@ -6,7 +6,7 @@ class ShowSolution extends React.Component {
 
     render() {
         return (
-            <button disabled={this.props.isDisabled} onClick={this.props.onClick} className= {this.props.isDisabled ? "showSolutionNotHover" : "showSolution" }>
+            <button disabled={this.props.isDisabled} onClick={this.props.onClick} className= {this.props.isDisabled ? "showSolutionNotHover" : "showSolution"}>
                 {this.props.isPressed ? <PlayCircleOutlineIcon fontSize="large"/> : <HelpOutlineIcon fontSize="large"/>}
             </button>
         );

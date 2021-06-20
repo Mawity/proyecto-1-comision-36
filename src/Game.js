@@ -3,7 +3,6 @@ import PengineClient from './PengineClient';
 import Board from './Board';
 import GameMode from './GameMode';
 import ShowSolution from './ShowSolution';
-import { HealingTwoTone } from '@material-ui/icons';
 import Hint from './Hint';
 
 class Game extends React.Component {

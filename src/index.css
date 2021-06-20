@@ -5,7 +5,6 @@ body {
 
 .square {
   display: flex;
-  align-content: space-around;
   align-items:center;
   background: #fff;
   border: 1px solid rgb(0, 0, 0);
@@ -19,6 +18,22 @@ body {
   outline: none;
 }
 
+.square:hover {
+  border: 2px solid #333333;
+  overflow: hidden;  
+}
+
+.squareNotHover {
+  display: flex;
+  align-items:center;
+  background: #fff;
+  border: 1px solid rgb(0, 0, 0);
+  font-weight: bold;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding-left: 2px;
+}
+
 .squarePintado {
   display: flex;
   align-items: center;
@@ -29,6 +44,23 @@ body {
   padding: 0;
   text-align: center;
 }
+
+.squarePintado:hover {
+  border: 2px solid #333333;
+  overflow: hidden;  
+}
+
+.squarePintadoNotHover {
+  display: flex;
+  align-items: center;
+  background: rgb(58, 116, 224);
+  border: 1px solid rgb(0, 0, 0);
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+}
+
 
 .gamemode {
   display: flex;
@@ -143,6 +175,7 @@ body {
 
 .clue {
   display: flex;
+  font-weight: bold;
   justify-content: center;
   align-items: center;
   background: #b9d6e0;
@@ -156,6 +189,7 @@ body {
 
 .sat {
   display: flex;
+  font-weight: bold;
   justify-content: center;
   align-items: center;
   background: aquamarine;
@@ -178,6 +212,8 @@ body {
 
 .title{
   font-size: 60px;
+  display: flex;
+  align-self: center;
   font: 35px "Century Gothic", Futura, sans-serif;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
