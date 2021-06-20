@@ -4,14 +4,15 @@ body {
 }
 
 .square {
+  display: flex;
+  align-content: space-around;
+  align-items:center;
   background: #fff;
   border: 1px solid rgb(0, 0, 0);
-  font-size: 30px;
   font-weight: bold;
   margin-right: -1px;
   margin-top: -1px;
-  padding: 0;
-  text-align: center;
+  padding-left: 2px;
 }
 
 .square:focus {
@@ -19,7 +20,9 @@ body {
 }
 
 .squarePintado {
-  background: rgb(61, 78, 156);
+  display: flex;
+  align-items: center;
+  background: rgb(58, 116, 224);
   border: 1px solid rgb(0, 0, 0);
   margin-right: -1px;
   margin-top: -1px;
@@ -28,24 +31,28 @@ body {
 }
 
 .gamemode {
+  display: flex;
+  align-items: center;
   border: 1px outset rgb(61, 78, 156);
   margin-top: 135px;
   margin-left: 75px;
   font-size: 30px;
-  background-color: lightBlue;
+  background-color: rgb(58, 116, 224);
   height:50px;
   width:50px;
   cursor:pointer;
 }
 
 .gamemode:hover {
-  background-color: rgb(61, 78, 156);
+  background-color: rgb(50, 165, 218);
   color:white;
 }
 
 .gamemodeNotHover {
+  display: flex;
+  align-items: center;
   border: 1px outset rgb(61, 78, 156);
-  background-color: lightBlue;
+  background-color: rgb(58, 116, 224);
   margin-top: 135px;
   margin-left: 75px;
   font-size: 30px;
@@ -54,9 +61,11 @@ body {
 }
 
 .showSolution{
+  display: flex;
+  align-items: center;
   border: 1px outset rgb(61, 78, 156);
   margin-top: 135px;
-  margin-left: 50px;
+  margin-left: 10px;
   font-size: 30px;
   background-color: rgb(58, 116, 224);
   height:50px;
@@ -66,6 +75,49 @@ body {
 
 .showSolution:hover{
   background-color: rgb(50, 165, 218);
+  color:white;
+}
+
+.showSolutionNotHover {
+  display: flex;
+  align-items: center;
+  border: 1px outset rgb(61, 78, 156);
+  background-color: rgb(58, 116, 224);
+  margin-top: 135px;
+  margin-left: 10px;
+  font-size: 30px;
+  height:50px;
+  width:50px;
+}
+
+.hint{
+  display: flex;
+  align-items: center;
+  border: 1px outset rgb(61, 78, 156);
+  margin-top: 135px;
+  margin-left: 10px;
+  font-size: 30px;
+  background-color: rgb(58, 116, 224);
+  height:50px;
+  width:50px;
+  cursor:pointer;
+}
+
+.hint:hover{
+  background-color: rgb(50, 165, 218);
+  color:white;
+}
+
+.hintNotHover{
+  display: flex;
+  align-items: center;
+  border: 1px outset rgb(61, 78, 156);
+  margin-top: 135px;
+  margin-left: 10px;
+  font-size: 30px;
+  background-color: rgb(58, 116, 224);
+  height:50px;
+  width:50px;
 }
 
 .board {
@@ -124,7 +176,15 @@ body {
   flex-direction: row;
 }
 
+.title{
+  font-size: 60px;
+  font: 35px "Century Gothic", Futura, sans-serif;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
 .gameInfo {
   margin-left: 20px;
+  margin-top: 135px;
   font: 35px "Century Gothic", Futura, sans-serif;
 }

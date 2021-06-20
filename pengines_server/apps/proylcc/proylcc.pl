@@ -1,6 +1,7 @@
 :- module(proylcc,
 	[  
-		put/8
+		put/8,
+		getSolution/3
 	]).
 
 :-use_module(library(lists)).

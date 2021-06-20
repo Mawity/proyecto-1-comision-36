@@ -4,6 +4,7 @@ import Board from './Board';
 import GameMode from './GameMode';
 import ShowSolution from './ShowSolution';
 import { HealingTwoTone } from '@material-ui/icons';
+import Hint from './Hint';
 
 class Game extends React.Component {
 
@@ -66,9 +67,6 @@ class Game extends React.Component {
       }
     });
 
-
-
-
     this.setState({
       waiting: false
     });
@@ -79,39 +77,52 @@ class Game extends React.Component {
     if (this.state.waiting) {
       return;
     }
-    // Build Prolog query to make the move, which will look as follows:
-    // put("#",[0,1],[], [],[["X","_","_","_","_"],["X","_","X","_","_"],["X","_","_","_","_"],["#","#","#","_","_"],["_","_","#","#","#"]], GrillaRes, FilaSat, ColSat)
-    const squaresS = JSON.stringify(this.state.gameGrid);
-    const gamsModeS = JSON.stringify(this.state.gameMode);
-    const rowCluesS = JSON.stringify(this.state.rowClues);
-    const colCluesS = JSON.stringify(this.state.colClues);
-    const queryS = 'put('+ gamsModeS +', [' + i + ',' + j + ']' 
-    + ', ' + rowCluesS + ',' + colCluesS + ',' + squaresS + ', GrillaRes, FilaSat, ColSat)';
-    this.setState({
-      waiting: true
-    });
-    this.pengine.query(queryS, (success, response) => {
-      if (success) {
-        const pistasRowAct = this.state.correctRow.slice();
-        const pistasColAct = this.state.correctCol.slice();
 
-        pistasRowAct[i] = response['FilaSat'];
-        pistasColAct[j] = response['ColSat'];
-
-        this.setState({
-          gameGrid: response['GrillaRes'],
-          auxGrid:  response['GrillaRes'],
-          correctRow: pistasRowAct,
-          correctCol: pistasColAct,
-          waiting: false
-        }, () => this.isGameOver());
-
-      } else {
-        this.setState({
-          waiting: false
-        });
+      // Build Prolog query to make the move, which will look as follows:
+      // put("#",[0,1],[], [],[["X","_","_","_","_"],["X","_","X","_","_"],["X","_","_","_","_"],["#","#","#","_","_"],["_","_","#","#","#"]], GrillaRes, FilaSat, ColSat)
+      const squaresS = JSON.stringify(this.state.gameGrid);
+      const gameModeS = JSON.stringify(this.state.gameMode);
+      const rowCluesS = JSON.stringify(this.state.rowClues);
+      const colCluesS = JSON.stringify(this.state.colClues);
+      var respuestaCorrecta; 
+      if(this.state.solvedGrid[i][j] == "_"){
+        respuestaCorrecta = "X";
+      }else{
+        respuestaCorrecta = "#";
       }
-    });
+      const respuestaCorrectaS = JSON.stringify(respuestaCorrecta);
+
+      const entradaS = this.state.gameStatus == "Hint mode" ? respuestaCorrectaS : gameModeS;
+      const queryS = 'put('+ entradaS +', [' + i + ',' + j + ']' 
+      + ', ' + rowCluesS + ',' + colCluesS + ',' + squaresS + ', GrillaRes, FilaSat, ColSat)';
+      this.setState({
+        waiting: true
+      });
+      this.pengine.query(queryS, (success, response) => {
+        if (success) {
+          const pistasRowAct = this.state.correctRow.slice();
+          const pistasColAct = this.state.correctCol.slice();
+
+          pistasRowAct[i] = response['FilaSat'];
+          pistasColAct[j] = response['ColSat'];
+
+          this.setState({
+            gameGrid: response['GrillaRes'],
+            auxGrid:  response['GrillaRes'],
+            correctRow: pistasRowAct,
+            correctCol: pistasColAct,
+            waiting: false
+          }, () => this.isGameOver());
+
+        } else {
+          this.setState({
+            waiting: false
+          });
+        }
+      });
+    
+
+
   }
 
   handleMode(){
@@ -154,10 +165,6 @@ class Game extends React.Component {
       this.setState({
         gameStatus: "You win!"
       })
-    }else{
-      this.setState({
-        gameStatus: "Game in progress"
-      })
     }
     
   }
@@ -169,7 +176,7 @@ class Game extends React.Component {
 
 
 
-    if(this.state.gameStatus == "Game in progress"){
+    if(this.state.gameStatus == "Game in progress" || this.state.gameStatus == "Hint mode"){
       this.setState({
         gameStatus: "Showing solution",
         gameGrid: this.state.solvedGrid
@@ -182,6 +189,24 @@ class Game extends React.Component {
     }
   }
 
+  handleHint(){
+    if(this.state.waiting){
+      return;
+    }
+
+
+
+    if(this.state.gameStatus == "Game in progress"){
+      this.setState({
+        gameStatus: "Hint mode",
+      })
+    }else{
+      this.setState({
+        gameStatus: "Game in progress",
+      })
+    }
+  }
+
 
 
   render() {
@@ -190,13 +215,17 @@ class Game extends React.Component {
     }
     return (
       <div className="game">
+        <div className="title">
+          {"NONOGRAM"}
+        </div>
         <Board
-          playable={this.state.gameStatus == "Game in progress" ? true : false}
+          playable={this.state.gameStatus == "Game in progress" || this.state.gameStatus == "Hint mode" ? true : false}
           gameGrid={this.state.gameGrid}
           rowClues={this.state.rowClues}
           colClues={this.state.colClues}
           rowCluesSat={this.state.correctRow}
           colCluesSat={this.state.correctCol}
+          reemplazarRepetido={this.state.gameStatus == "Hint mode" ? false : true}
           onClick={(i, j) => this.handleClick(i,j)}
         />
 
@@ -207,14 +236,17 @@ class Game extends React.Component {
         />
 
         <ShowSolution
-          value={"toggle"}
+          value={"solution"}
           isPressed={this.state.gameStatus == "Showing solution" ? true : false}
           isDisabled={this.state.gameStatus == "You win!" ? true : false}
           onClick={() => this.handleShowSolution()}
         />
 
-        <HealingTwoTone
-        
+        <Hint
+          value={"hint"}
+          isPressed={this.state.gameStatus == "Hint" ? true : false}
+          isDisabled={this.state.gameStatus == "You win!" || this.state.gameStatus == "Showing solution" ? true : false}
+          onClick={() => this.handleHint()}
         />
 
         <div className="gameInfo">

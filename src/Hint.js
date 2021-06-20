@@ -1,15 +1,15 @@
 import React from 'react';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import SearchIcon from '@material-ui/icons/Search';
 
-class ShowSolution extends React.Component {
+class Hint extends React.Component {
 
     render() {
         return (
-            <button disabled={this.props.isDisabled} onClick={this.props.onClick} className="showSolution">
-                <EmojiObjectsIcon/>
+            <button disabled={this.props.isDisabled} onClick={this.props.onClick} className={this.props.isDisabled ? "hintNotHover" : "hint"}>
+                <SearchIcon fontSize="large"/>
             </button>
         );
     }
 }
 
-export default ShowSolution;
+export default Hint;

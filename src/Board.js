@@ -66,6 +66,7 @@ class Board extends React.Component {
                                 <Square
                                     isDisabled={this.props.playable}
                                     value={cell}
+                                    reemplazarRepetido={this.props.reemplazarRepetido}
                                     onClick={() => this.props.onClick(i, j)}
                                     key={i + j}
                                 />
