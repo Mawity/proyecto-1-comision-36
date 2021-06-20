@@ -4,8 +4,8 @@ import Clue from './Clue';
 
 class Board extends React.Component {
     render() {
-        const numOfRows = this.props.grid.length;
-        const numOfCols = this.props.grid[0].length;
+        const numOfRows = this.props.gameGrid.length;
+        const numOfCols = this.props.gameGrid[0].length;
 
         const rowClues = this.props.rowClues;
         const colClues = this.props.colClues;
@@ -61,7 +61,7 @@ class Board extends React.Component {
                             gridTemplateRows: 'repeat(' + numOfRows + ', 40px)',
                             gridTemplateColumns: 'repeat(' + numOfCols + ', 40px)'
                         }}>
-                        {this.props.grid.map((row, i) =>
+                        {this.props.gameGrid.map((row, i) =>
                             row.map((cell, j) =>
                                 <Square
                                     isDisabled={this.props.playable}

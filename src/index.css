@@ -53,6 +53,21 @@ body {
   width:50px;
 }
 
+.showSolution{
+  border: 1px outset rgb(61, 78, 156);
+  margin-top: 135px;
+  margin-left: 50px;
+  font-size: 30px;
+  background-color: rgb(58, 116, 224);
+  height:50px;
+  width:50px;
+  cursor:pointer;
+}
+
+.showSolution:hover{
+  background-color: rgb(50, 165, 218);
+}
+
 .board {
   display: grid;
 }
